@@ -1,15 +1,34 @@
 <?php
-##Establecer conexión
-require("../config/conexion.php");
-include('../templates/header.html');
 
-echo "<div class='main'><h1 class='title' align='center'>Llega aquí </h1></div>";
-$query = "SELECT importar_usuarios()";
-#echo "<div class='main'><h1 class='title' align='center'>Llega aquí1 </h1></div>";
-$result = $db2 -> prepare($query);
-#echo "<div class='main'><h1 class='title' align='center'>Llega aquí2 </h1></div>";
-$result -> execute();
-#echo "<div class='main'><h1 class='title' align='center'>Llega aquí3 </h1></div>";
-$usuarios = $result -> fetchAll();
-echo "<div class='main'><h1 class='title' align='center'>Usuarios Importados con éxito </h1></div>";
+    // Nos conectamos a las bdds
+    require("../config/conexion.php");
+    include('../templates/header.html');
+
+    // Primero obtenemos todos los usuarios de la tabla que queremos agregar
+    $query = "SELECT * FROM basededatospar ORDER BY id;";
+    $result = $dbpar -> prepare($query);
+    $result -> execute();
+    $usuariospar = $result -> fetchAll();
+
+
+    foreach ($usuariospar as $usuario){
+
+        // id-nombre-mail-contraseña-usuario-fechanacimiento
+
+        $query = "SELECT importar_usuarios($pokemon[0], '$usuario[1]'::varchar,'$usuario[2]'::varchar,$usuario[3]::varchar,$usuario[4]::varchar,$usuario[11]);";
+
+
+        // Ejecutamos las querys para efectivamente insertar los datos
+        $result = $dbimpar -> prepare($query);
+        $result -> execute();
+        $result -> fetchAll();
+    }
+
+
+    // Mostramos los cambios en una nueva tabla
+    $query = "SELECT * FROM usuario1 ORDER BY id DESC;";
+    $result = $dbimpar -> prepare($query);
+    $result -> execute();
+    $pokemons = $result -> fetchAll();
+
 ?>
