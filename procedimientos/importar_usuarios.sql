@@ -17,8 +17,6 @@ BEGIN
     --     UPDATE pokemon1 SET generation = 1;
     -- END IF;
     
-    -- si el id en el argumento no está en la tabla, agregamos el pokemon
-    -- notar que ahora debemos agregar el dato de la columna generation en el values a insertar
     IF usid NOT IN (SELECT id from usuariopar) THEN
         INSERT INTO usuariopar values(usid, unombre, umail, upassword, uusername, ufecha_nacimiento);
 
